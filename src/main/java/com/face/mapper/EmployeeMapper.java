@@ -5,7 +5,9 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 @Mapper
@@ -24,4 +26,10 @@ public interface EmployeeMapper {
 
     @Select("SELECT * FROM employee WHERE id = #{id}")
     Employee findById(Integer id);
+
+    @Select("SELECT * FROM employee WHERE feature IS NULL OR TRIM(feature) = ''")
+    List<Employee> findWithoutFeature();
+
+    @Update("UPDATE employee SET feature = #{feature} WHERE id = #{id}")
+    int updateFeature(@Param("id") Integer id, @Param("feature") String feature);
 }

@@ -92,6 +92,18 @@ public class EmployeeController {
         return Result.success(features);
     }
 
+    @PostMapping("/backfill-features")
+    public Result<Map<String, Object>> backfillFeatures(HttpServletRequest request) {
+        if (!isAdmin(request)) {
+            return Result.error(403, "Permission denied");
+        }
+        try {
+            return Result.success(employeeService.backfillMissingFeatures());
+        } catch (Exception e) {
+            return Result.error(500, "Failed to backfill features: " + e.getMessage());
+        }
+    }
+
     private boolean isAdmin(HttpServletRequest request) {
         Object role = request.getAttribute("role");
         return role != null && "ADMIN".equals(role.toString());
