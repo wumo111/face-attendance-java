@@ -26,7 +26,7 @@ spring:
 
 face:
   python-api: http://localhost:5000
-  upload-path: D:/face-attendance/upload/
+  upload-path: C:\graduate\shixi
 ```
 
 ## Running

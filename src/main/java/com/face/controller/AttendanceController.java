@@ -6,7 +6,9 @@ import com.face.mapper.AttendanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/attendance")
@@ -26,9 +28,14 @@ public class AttendanceController {
     }
 
     @GetMapping("/list")
-    public Result<List<AttendanceRecord>> listAttendance(@RequestParam(defaultValue = "1") int page, 
-                                                         @RequestParam(defaultValue = "10") int size) {
+    public Result<Map<String, Object>> listAttendance(@RequestParam(defaultValue = "1") int page,
+                                                       @RequestParam(defaultValue = "10") int size) {
         int offset = (page - 1) * size;
-        return Result.success(attendanceMapper.findAll(offset, size));
+        List<Map<String, Object>> list = attendanceMapper.findAllWithName(offset, size);
+        int total = attendanceMapper.countAllWithName();
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        result.put("total", total);
+        return Result.success(result);
     }
 }

@@ -24,6 +24,9 @@ public interface EmployeeMapper {
     @Select("SELECT * FROM employee")
     List<Employee> findAll();
 
+    @Select("SELECT COUNT(*) FROM employee")
+    int countAll();
+
     @Select("SELECT * FROM employee WHERE id = #{id}")
     Employee findById(Integer id);
 
